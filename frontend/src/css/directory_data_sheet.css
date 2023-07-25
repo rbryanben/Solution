@@ -1,0 +1,58 @@
+.directory-data-sheet .data-header {
+    display: grid;
+    grid-template-columns: 60px repeat(5,1fr);
+    margin-top: 30px;
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+.directory-data-sheet .data-entry {
+    display: grid;
+    grid-template-columns: 60px repeat(5,1fr);
+    font-size: 0.9rem;
+    padding: 10px;
+    cursor: pointer;
+}
+
+
+
+.directory-data-sheet .data-entry:hover {
+    background-color: rgba(83, 83, 83, 0.034);
+}
+
+.directory-data-sheet .data-entry > div {
+    display: flex;
+    align-items: center;
+}
+.directory-data-sheet .data-entry {
+    border-bottom: solid 1.55px rgba(75, 75, 75, 0.205);
+    transition: all 0.1s ease-in;
+}
+
+.directory-data-sheet .data-entry:last-child {
+    border-bottom: solid 1px transparent;
+}
+
+.directory-data-sheet .data-entry.expand {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-row-gap: 20px;
+    padding: 20px 10px !important;
+    font-size: 0.9rem;
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--color-background);
+}
+
+.datasheet-editable {
+    display: block !important;
+}
+
+.plain-input {
+    margin-top: 5px;
+    border: solid 1px rgb(75, 75, 75);
+    background-color: transparent;
+    padding: 10px 20px;
+    width: 250px;
+    outline: none;
+}

@@ -1,0 +1,138 @@
+/* App Colors */
+:root{
+    --color-primary: #388486;
+    --color-secondary: #7A9AA4;
+    --color-highlight: #E87951;
+    --color-extra: #F345BC;
+    --color-text-primary: #4b4b4b;
+    --color-text-primary-faint: #4b4b4b6e;
+    --color-text-hover: #2b2a2a;
+    --color-background: #fcfbf9;
+}
+
+/* Body */
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--color-text-primary);
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--color-background);
+}
+
+/* App */
+.App {
+    padding: 40px 10%;
+}
+
+.debug {
+    border: solid 1px red;
+}
+
+/* Text */
+.text-heading-1 {
+    font-size: 1.8rem;
+}
+
+.text-heading-2 {
+    font-size: 1rem;
+}
+
+/*  Data Selector */
+.data-selector-wrapper {
+    margin-top: 30px;
+}
+
+/* Data Sheet */
+.data-sheet-wrapper {
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.068), 0 3px 10px 0 rgba(0, 0, 0, 0.062);
+    padding: 20px;
+    border-radius: 4px;
+}
+
+/* slider */
+.slider {
+    height: 1.5px;
+    margin-top: 15px;
+    background-color: #4b4b4b1e;
+    transition: all 0.1s ease-in;
+}
+
+.slider .inner {
+    background-color: var(--color-secondary);
+    width: 90px;
+    height: inherit;
+    transition: all 0.1s ease-in;
+}
+
+/* Search Input */
+.search-input {
+    outline: solid 1.5px var(--color-text-primary-faint);
+    padding: 5px 10px;
+    position: relative;
+    border-radius: 4px;
+    width: fit-content;
+    transition: all 0.1s ease-in;
+}
+
+.search-input.focused {
+    outline: solid 2px var(--color-highlight);
+}
+.search-input input {
+    border: none;
+    opacity: 0.8;
+    outline: none;
+    width: 80px;
+    transition: all 0.1s ease-in;
+}
+
+
+.search-input input:focus {
+    width: 180px;
+}
+
+.search-input input:focus {
+    width: 180px;
+}
+
+.search-input input:valid {
+    width: 180px;
+}
+
+.search-input i {
+    font-size: small;
+    opacity: 0.8;
+    margin-right: 5px;
+    transform: translateY(1px);
+}
+
+.separator {
+    height: 0px;
+    border-top: solid 1.55px rgba(75, 75, 75, 0.205);
+    display: flex;
+}
+
+.small-circlular-image {
+    border-radius: 50%;
+    height: 20px;
+    object-fit: cover;
+}
+
+.centered{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-employee-component {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    background-color: var(--color-background);
+    grid-row-gap: 20px;
+    padding: 20px 10px !important;
+}
+
+.hiddden {
+    display: none;
+}

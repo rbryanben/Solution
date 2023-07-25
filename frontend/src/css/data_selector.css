@@ -1,0 +1,17 @@
+.data-selector-wrapper .tabs{
+    display: grid;
+    cursor: pointer;
+    grid-template-columns: 110px 110px 110px;
+}
+
+.data-selector-wrapper .tabs .tab {
+    transition: 0.1s ease-in;
+}
+
+.data-selector-wrapper .tabs .tab:hover {
+    color: var(--color-text-hover);
+}
+
+.data-selector-wrapper .tabs .tab.selected {
+    font-weight: 600;
+}
