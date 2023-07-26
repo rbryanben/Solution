@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import *
 import uuid 
@@ -147,79 +146,77 @@ def employeesCSV(request):
     # Iterate the rows 
     for index, row in df.iterrows():
         # Switch actions 
-        match row["ACTION"]:
-            # CREATE EVENT
-            case "CREATE":
-                # Get the department or create the department
-                department = None 
-                if (CompanyDepartment.objects.filter(company=company,name=row["DEPARTMENT"]).exists()):
-                    department = CompanyDepartment.objects.get(company=company,name=row["DEPARTMENT"])
-                else:
-                    department = CompanyDepartment(company=company,name=row["DEPARTMENT"])
-                    department.save()
+        if row["ACTION"] == "CREATE":
+            # Get the department or create the department
+            department = None 
+            if (CompanyDepartment.objects.filter(company=company,name=row["DEPARTMENT"]).exists()):
+                department = CompanyDepartment.objects.get(company=company,name=row["DEPARTMENT"])
+            else:
+                department = CompanyDepartment(company=company,name=row["DEPARTMENT"])
+                department.save()
 
-                # Create Record
-                new_employee = Employee(
-                        company=company,
-                        full_name = row["FULL_NAME"],
-                        employee_id = row["EMPLOYEE_ID"],
-                        profile_picture = row["PROFILE_PICTURE_URL"],
-                        department = department
-                )
+            # Create Record
+            new_employee = Employee(
+                    company=company,
+                    full_name = row["FULL_NAME"],
+                    employee_id = row["EMPLOYEE_ID"],
+                    profile_picture = row["PROFILE_PICTURE_URL"],
+                    department = department
+            )
 
-                try:
-                    new_employee.save()
-                except:
-                    failed.append({
-                        "EMPLOYEE_ID" : row["EMPLOYEE_ID"],
-                        "EVENT" : "EMPLOYEE_ID_EXISTS" 
-                    })
+            try:
+                new_employee.save()
+            except:
+                failed.append({
+                    "EMPLOYEE_ID" : row["EMPLOYEE_ID"],
+                    "EVENT" : "EMPLOYEE_ID_EXISTS" 
+                })
 
-                    continue
+                continue
 
-                # Create Prev Role
-                prev_role = EmployeeRole(
-                    employee = new_employee,
-                    title = row["PREV_ROLE_TITLE"],
-                    date_started = row["PREV_ROLE_DATE_STARTED"],
-                    date_left = row["PREV_ROLE_DATE_LEFT"],
-                    duties = row["PREV_ROLE_DUTIES"],
-                    company = row["PREV_ROLE_COMPANY"]
-                )
+            # Create Prev Role
+            prev_role = EmployeeRole(
+                employee = new_employee,
+                title = row["PREV_ROLE_TITLE"],
+                date_started = row["PREV_ROLE_DATE_STARTED"],
+                date_left = row["PREV_ROLE_DATE_LEFT"],
+                duties = row["PREV_ROLE_DUTIES"],
+                company = row["PREV_ROLE_COMPANY"]
+            )
 
-                prev_role.save()
+            prev_role.save()
+ 
+        if row["ACTION"] == "UPDATE":
+            # Get the employee
+            employee = Employee.objects.filter(company=company,employee_id=row["EMPLOYEE_ID"])
+            # Employee does not exist
+            if len(employee) == 0:
+                failed.append({
+                    "EMPLOYEE_ID" : row["EMPLOYEE_ID"],
+                    "EVENT" : "EMPLOYEE_DOESNT_EXIST"
+                })
+                continue
 
-            # UPDATE EVENT
-            case "UPDATE":
-                # Get the employee
-                employee = Employee.objects.filter(company=company,employee_id=row["EMPLOYEE_ID"])
-                # Employee does not exist
-                if len(employee) == 0:
-                    failed.append({
-                        "EMPLOYEE_ID" : row["EMPLOYEE_ID"],
-                        "EVENT" : "EMPLOYEE_DOESNT_EXIST"
-                    })
-                    continue
+            employee = employee[0]
 
-                employee = employee[0]
+            # Handle department
+            department = None 
+            if (CompanyDepartment.objects.filter(company=company,name=row["DEPARTMENT"]).exists()):
+                department = CompanyDepartment.objects.get(company=company,name=row["DEPARTMENT"])
+            else:
+                department = CompanyDepartment(company=company,name=row["DEPARTMENT"])
+                department.save()
 
-                # Handle department
-                department = None 
-                if (CompanyDepartment.objects.filter(company=company,name=row["DEPARTMENT"]).exists()):
-                    department = CompanyDepartment.objects.get(company=company,name=row["DEPARTMENT"])
-                else:
-                    department = CompanyDepartment(company=company,name=row["DEPARTMENT"])
-                    department.save()
+            # Update the employee
+            employee.department = department
+            employee.full_name = row["FULL_NAME"]
+            employee.profile_picture = row["PROFILE_PICTURE_URL"]
+            employee.last_updated = datetime.datetime.now()
+            employee.save()
 
-                # Update the employee
-                employee.department = department
-                employee.full_name = row["FULL_NAME"]
-                employee.profile_picture = row["PROFILE_PICTURE_URL"]
-                employee.last_updated = datetime.datetime.now()
-                employee.save()
-
-            case "DELETE":
-                Employee.objects.filter(company=company,employee_id=row["EMPLOYEE_ID"]).delete()
+        # Switch actions 
+        if row["ACTION"] == "DELETE":
+            Employee.objects.filter(company=company,employee_id=row["EMPLOYEE_ID"]).delete()
 
                 
                 
