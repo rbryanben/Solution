@@ -20,7 +20,7 @@ const APP_RENDERABLE_COMPONENTS =  {
     ADD_EMPLOYEE : "ADD_EMPLOYEE"
 }
 
-const baseURL = "http://34.72.43.69:8001/"
+const baseURL = "http://fincheck.ddns.net:8001"
 
 
 // Application
